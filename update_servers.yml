@@ -4,14 +4,9 @@
   become: true
   tasks:
 
-  - name: Update repo
+  - name: Update cache before upgrading all packages
     dnf:
+      update_only: yes
       update_cache: yes
-    when: ansible_distribution in ["CentOS", "Fedora"]
-
-  - name: Upgrade all packages
-    dnf:
-      name: "*"
-      state: latest
     when: ansible_distribution in ["CentOS", "Fedora"]
 
