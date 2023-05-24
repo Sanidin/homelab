@@ -1,13 +1,21 @@
 ---
+
 - hosts: all
-  become: yes
+  become: true
   tasks:
-  - name: Update all packages
-    yum:
-      name: "*"
+
+  - name: Update cache before upgrading all packages
+    dnf:
+      name: '*'
       state: latest
       update_cache: yes
+      update_only: yes
+    register: dnf_update_status
 
-  - name: Reboot if any packages were updated
+  - name: Remove packages not needed anymore
+    dnf:
+      autoremove: yes
+
+  - name: Reboot when packages were updated
     reboot:
-      when: changed
+    when: dnf_update_status.changed
