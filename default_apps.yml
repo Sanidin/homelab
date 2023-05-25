@@ -1,0 +1,10 @@
+---
+
+- hosts: all
+  become: true
+  tasks:
+
+  - name: Install OpenSCAP Scanner
+    package:
+      name: openscap-scanner
+      state: latest
