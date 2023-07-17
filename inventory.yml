@@ -18,6 +18,7 @@ all:
         kube21.littleton.cloud:
         kube22.littleton.cloud:
         kube23.littleton.cloud:
+        kube31.littleton.cloud:
     database:
       hosts:
         db01.littleton.cloud:
