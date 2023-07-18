@@ -1,17 +1,6 @@
 ---
 
-- hosts: kube-cp
-  become: true
-  tasks:
-
-  - name: Open ports on control nodes
-    firewalld:
-      permanent: yes
-      immediate: yes
-      service: kube-control-plane
-      state: enabled
-
-- hosts: kube-agt
+- hosts: all
   become: true
   tasks:
 
