@@ -1,0 +1,22 @@
+---
+
+- hosts: kube-cp
+  become: true
+  tasks:
+
+  - name: Open ports on control nodes
+    firewalld:
+      permanent: yes
+      immediate: yes
+      service: kube-control-plane
+      state: enabled
+
+- hosts: kube-agt
+  become: true
+  tasks:
+
+  - name: Stop and disable firewalld on woker nodes
+    service:
+      name: firewalld
+      state: stopped
+      enabled: false
