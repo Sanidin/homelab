@@ -6,11 +6,24 @@
       - 10.10.10.0/24
     unnecessary_services:
       - postfix
-      - telnet
+      - autofs
+      - debug.shell
+      - ctrl-alt-del
     unnecessary_software:
       - tcpdump
       - nmap-ncat
       - wpa_supplicant
+      - sendmail
+      - nfs-utils
+      - ypserv
+      - rsh-server
+      - telnet-server
+      - gssproxy
+      - iprutils
+      - tuned
+      - tftp
+      - quagga
+
   tasks:
     - name: Add hardened SSH config
       copy:
