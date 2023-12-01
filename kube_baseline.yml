@@ -5,7 +5,6 @@
       - 192.168.122.0/24
       - 10.10.10.0/24
     unnecessary_services:
-      - postfix
       - autofs
       - debug.shell
       - ctrl-alt-del
@@ -57,7 +56,7 @@
     - name: Stop and disable unnecessary services
       service:
         name: "{{ item }}"
-        state: stopped
+        state: masked
         enabled: no
       with_items: "{{ unnecessary_services }}"
       ignore_errors: yes
