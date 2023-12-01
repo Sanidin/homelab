@@ -1,0 +1,11 @@
+---
+
+- hosts: all
+  become: true
+  tasks:
+
+  - name: Stop and disable firewalld on woker nodes
+    service:
+      name: firewalld
+      state: stopped
+      enabled: false
