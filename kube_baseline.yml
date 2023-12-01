@@ -21,6 +21,15 @@
         mode: 0600
       notify: Reload SSH
 
+    - name: Add hardened SSH include config
+      copy:
+        dest: /etc/ssh/sshd_config.d/50-redhat.conf
+        src: files/50-redhat.conf
+        owner: root
+        group: root
+        mode: 0600
+      notify: Reload SSH
+
     - name: Stop and disable firewalld on nodes
       service:
         name: firewalld
