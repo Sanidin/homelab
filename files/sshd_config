@@ -121,6 +121,7 @@ UsePrivilegeSeparation sandbox
 #Banner none
 
 # override default of no subsystems
+#REQUIRED FOR ANSIBLE
 Subsystem	sftp	/usr/libexec/openssh/sftp-server
 
 # Example of overriding settings on a per-user basis
