@@ -2,10 +2,6 @@
 - hosts: all
   become: true
   vars:
-    unnecessary_services:
-      - autofs
-      - debug.shell
-      - ctrl-alt-del
     unnecessary_software:
       - tcpdump
       - nmap-ncat
@@ -18,7 +14,6 @@
       - gssproxy
       - iprutils
       - tuned
-      - tftp
       - quagga
 
   tasks:
@@ -59,14 +54,6 @@
       package:
         name: "{{ unnecessary_software }}"
         state: absent
-
-    - name: Stop and disable unnecessary services
-      service:
-        name: "{{ item }}"
-        state: masked
-        enabled: no
-      with_items: "{{ unnecessary_services }}"
-      ignore_errors: yes
 
   handlers:
     - name: Reload SSH
