@@ -1,0 +1,56 @@
+
+- hosts: all
+  become: true
+  vars:
+    unnecessary_software:
+      - tcpdump
+      - nmap-ncat
+      - wpa_supplicant
+      - sendmail
+      - nfs-utils
+      - ypserv
+      - rsh-server
+      - telnet-server
+      - gssproxy
+      - iprutils
+      - tuned
+      - quagga
+
+  tasks:
+    - name: Add hardened SSH config
+      copy:
+        dest: /etc/ssh/sshd_config
+        src: files/sshd_config
+        owner: root
+        group: root
+        mode: 0600
+      notify: Reload SSH
+
+    - name: Add hardened SSH include config
+      copy:
+        dest: /etc/ssh/sshd_config.d/50-redhat.conf
+        src: files/50-redhat.conf
+        owner: root
+        group: root
+        mode: 0600
+      notify: Reload SSH
+    
+    - name: Add hardened ciphers
+      copy:
+        dest: /etc/crypto-policies/back-ends/openssh.config
+        src: files/openssh.config
+        owner: root
+        group: root
+        mode: 0600
+      notify: Reload SSH
+
+    - name: Remove undesirable packages
+      package:
+        name: "{{ unnecessary_software }}"
+        state: absent
+
+  handlers:
+    - name: Reload SSH
+      service:
+        name: sshd
+        state: reloaded
