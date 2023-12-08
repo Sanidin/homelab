@@ -34,15 +34,6 @@
         group: root
         mode: 0600
       notify: Reload SSH
-    
-    - name: Add hardened ciphers
-      copy:
-        dest: /etc/crypto-policies/back-ends/openssh.config
-        src: files/openssh.config
-        owner: root
-        group: root
-        mode: 0600
-      notify: Reload SSH
 
     - name: Stop and disable firewalld on nodes
       service:
