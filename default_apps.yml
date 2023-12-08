@@ -2,10 +2,13 @@
 
 - hosts: all
   become: true
+  vars:
+    install_pkgs:
+      - mkpasswd
+      - openscap-scanner
   tasks:
-
-  - name: Install OpenSCAP Scanner
-    package:
-      name: openscap-scanner
+    - name: Install packages
+      package:
+        name: "{{ install_pkgs }}"
       state: latest
       enablerepo: epel
