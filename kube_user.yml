@@ -1,0 +1,30 @@
+---
+- hosts: all
+  become: true
+  tasks:
+  
+  - name: Ensure group k0s exists
+    group:
+      name: k0s
+      state: present
+      gid: 1050
+  
+  - name: Add k0s user
+    user:
+      name: "k0s"
+      groups: k0s
+      append: true
+      state: present
+      createhome: true
+
+  - name: Make sudo without password for k0s user
+    copy:
+      dest: /etc/sudoers.d/80-ansible-sudo-user
+      content: "k0s ALL=(ALL) NOPASSWD:ALL"
+      mode: 0440
+    
+  - name: Set authorized key taken from file
+    authorized_key:
+      user: k0s
+      state: present
+      key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_k0s.pub') }}"
