@@ -2,13 +2,13 @@ all:
   children:
     control:
       hosts:
-        odin100.littleton.cloud:
-        odin200.littleton.cloud:
-        odin300.littleton.cloud:
+        odin100:
+        odin200:
+        odin300:
     workers:
       hosts:
-        thor101.littleton.cloud:
-        thor102.littleton.cloud:
-        thor201.littleton.cloud:
-        thor202.littleton.cloud:
-        thor301.littleton.cloud:
+        thor101:
+        thor102:
+        thor201:
+        thor202:
+        thor301:
