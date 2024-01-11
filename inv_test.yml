@@ -1,5 +1,0 @@
-all:
-  children:
-    hosts:
-      odin300.littleton.cloud:
-      thor301.littleton.cloud:
