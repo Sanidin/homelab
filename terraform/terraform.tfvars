@@ -1,0 +1,1 @@
+pm_api_url = "https://pve01:8006/api2/json"
