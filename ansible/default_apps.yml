@@ -2,10 +2,13 @@
 
 - hosts: all
   become: true
+  
   vars:
     install_pkgs:
-      - mkpasswd
       - openscap-scanner
+      - libguestfs-tools
+      - wget
+  
   tasks:
     - name: Install packages
       package:
