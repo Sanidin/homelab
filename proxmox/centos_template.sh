@@ -7,16 +7,18 @@ if [ "$EUID" -ne 0 ]
   exit
 fi
 
-FILE2=/root/CentOS-Stream-GenericCloud-9-latest.x86_64.qcow2
-if test -f "$FILE2"; then
-     echo "found img file skipping download..."
-else
-     echo "downloading img file..."
-     cd /root/
-     wget https://cloud.centos.org/centos/9-stream/x86_64/images/CentOS-Stream-GenericCloud-9-latest.x86_64.qcow2
-fi
+echo "downloading latest cloud img..."
+cd /root/
+wget -r https://cloud.centos.org/centos/9-stream/x86_64/images/CentOS-Stream-GenericCloud-9-latest.x86_64.qcow2
 
+echo "customizing img..."
 virt-customize -a CentOS-Stream-GenericCloud-9-latest.x86_64.qcow2 --install qemu-guest-agent
+virt-customize -a CentOS-Stream-GenericCloud-9-latest.x86_64.qcow2 --root-password file:/root/ansible_ssh_key.txt
+virt-customize -a CentOS-Stream-GenericCloud-9-latest.x86_64.qcow2 --run-command "useradd -m -s /bin/bash sanidin"
+virt-customize -a CentOS-Stream-GenericCloud-9-latest.x86_64.qcow2 --password sanidin:file:/root/ansible_ssh_key.txt
+virt-customize -a CentOS-Stream-GenericCloud-9-latest.x86_64.qcow2 --ssh-inject sanidin:file:/root/ansible_ssh_key.txt
+
+echo "creating template..."
 qm create 9001 --name "centos-template" --memory 2048 --net0 virtio,bridge=vmbr0,tag=3
 qm importdisk 9001 /root/CentOS-Stream-GenericCloud-9-latest.x86_64.qcow2 TrueNAS
 qm set 9001 --scsihw virtio-scsi-pci -scsi0 TrueNAS:vm-9001-disk-0
