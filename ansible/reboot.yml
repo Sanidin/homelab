@@ -3,5 +3,5 @@
 - hosts: all
   become: true
   tasks:
-  - name: Reboot a Linux machine 
+  - name: Reboot 
     reboot:
