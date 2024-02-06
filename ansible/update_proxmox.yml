@@ -1,0 +1,19 @@
+---
+
+- hosts: all
+  become: true
+  tasks:
+
+  - name: Update cache before upgrading all packages
+    apt:
+      update_cache: yes
+      upgrade: dist
+    register: apt_update_status
+
+  - name: Remove packages not needed anymore
+    apt:
+      autoremove: yes
+
+  - name: Reboot when packages were updated
+    reboot:
+    when: apt_update_status.changed
