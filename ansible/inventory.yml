@@ -1,17 +1,19 @@
 all:
   children:
-    control:
-      hosts:
-        odin100:
-        odin200:
-        odin300:
-    workers:
-      hosts:
-        thor101:
-        thor102:
-        thor201:
-        thor202:
-        thor301:
+    rhel:
+      children:
+        control:
+          hosts:
+            odin100:
+            odin200:
+            odin300:
+        workers:
+          hosts:
+            thor101:
+            thor102:
+            thor201:
+            thor202:
+            thor301:
     prox:
       hosts:
         pve01:
