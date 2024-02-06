@@ -1,6 +1,6 @@
 ---
 
-- hosts: all
+- hosts: rhel
   become: true
   tasks:
 
