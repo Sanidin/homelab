@@ -7,12 +7,21 @@ spec:
     version: null
     versionChannel: stable
     dynamicConfig: false
-    config:
-      spec:
-        network:
-          nodeLocalLoadBalancing:
-            enabled: true
-            type: EnvoyProxy
+    config: {}
+#      spec:
+#        network:
+#          nodeLocalLoadBalancing:
+#            enabled: true
+#            type: EnvoyProxy
+  extensions:
+    helm:
+      repositories:
+      - name: metallb
+        url: https://metallb.github.io/metallb
+      charts:
+      - name: metallb
+        chartname: metallb/metallb
+        namespace: metallb
   hosts:
   - ssh:
       address: 192.168.3.10
@@ -62,4 +71,3 @@ spec:
       port: 22
       keyPath: ~/.ssh/id_k0s
     role: worker
-    
