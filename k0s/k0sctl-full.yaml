@@ -70,10 +70,6 @@ spec:
             - name: bitnami
               url: https://charts.bitnami.com/bitnami
             charts:
-            - name: traefik
-              chartname: traefik/traefik
-              version: "27.0.2"
-              namespace: default
             - name: metallb
               chartname: bitnami/metallb
               version: "6.1.4"
