@@ -3,16 +3,6 @@ kind: Cluster
 metadata:
   name: k0s-cluster
 spec:
-  k0s:
-    version: null
-    versionChannel: stable
-    dynamicConfig: false
-    config: {}
-#      spec:
-#        network:
-#          nodeLocalLoadBalancing:
-#            enabled: true
-#            type: EnvoyProxy
   extensions:
     helm:
       repositories:
@@ -71,3 +61,8 @@ spec:
       port: 22
       keyPath: ~/.ssh/id_k0s
     role: worker
+  k0s:
+    version: null
+    versionChannel: stable
+    dynamicConfig: false
+    config: {}
