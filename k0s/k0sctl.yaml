@@ -53,6 +53,11 @@ spec:
       keyPath: ~/.ssh/id_k0s
     role: worker
   k0s:
-    version: v1.28.4+k0s.0
+    version: v1.29.4+k0s.0
     dynamicConfig: false
-    config: {}
+    config:
+      spec:
+        api:
+          externalAddress: 192.168.3.100
+          sans:
+          - 192.168.3.100
