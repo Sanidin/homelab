@@ -65,8 +65,6 @@ spec:
         extensions:
           helm:
             repositories:
-            - name: traefik
-              url: https://helm.traefik.io/traefik
             - name: bitnami
               url: https://charts.bitnami.com/bitnami
             charts:
