@@ -2,12 +2,12 @@ all:
   children:
     rhel:
       children:
-        control:
+        manager:
           hosts:
             odin100:
             odin200:
             odin300:
-        workers:
+        worker:
           hosts:
             thor101:
             thor102:

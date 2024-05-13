@@ -8,10 +8,24 @@
       - openscap-scanner
       - libguestfs-tools
       - wget
-  
+      - docker-ce
+      - glusterfs
+
   tasks:
-    - name: Install packages
-      package:
-        name: "{{ install_pkgs }}"
-      state: latest
-      enablerepo: epel
+  - name: Add repo docker-ce-stable
+    ansible.builtin.yum_repository:
+      name: docker-ce-stable
+      description: Docker CE Stable - $basearch
+      baseurl: https://download.docker.com/linux/centos/$releasever/$basearch/stable
+      gpgcheck: yes
+      gpgkey: https://download.docker.com/linux/centos/gpg
+
+  - name: Ensure EPEL is enabled
+    ansible.builtin.package:
+      name: epel-release
+    state: latest
+
+  - name: Install packages
+    ansible.builtin.package:
+      name: "{{ install_pkgs }}"
+    state: latest
