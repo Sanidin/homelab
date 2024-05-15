@@ -1,10 +1,6 @@
 
 - hosts: rhel
   become: true
-  vars:
-    fw_svc:
-    - docker-swarm
-    - glusterfs
 
   tasks:
   - name: Start and enable firewalld
@@ -20,26 +16,27 @@
       owner: root
       group: root
       mode: 0644
-    register: add_service
-
-  - name: Restart firewalld if needed
-    ansible.builtin.systemd:
-      name: firewalld
-      state: restarted
-      enabled: yes
-    when: add_service.changed
+    notify: reload_firewalld
 
   - name: Open GlusterFS Service
     ansible.posix.firewalld:
-      service: "{{ fw_svc }}"
+      service: glusterfs
       zone: public
       state: enabled
       permanent: yes
-    register: reload_firewalld
+    notify: reload_firewalld
 
-  - name: Restart firewalld if needed
-    ansible.builtin.systemd:
-      name: firewalld
-      state: restarted
-      enabled: yes
-    when: reload_firewalld.changed
+  - name: Open Docker Swarm Service
+    ansible.posix.firewalld:
+      service: docker-swarm
+      zone: public
+      state: enabled
+      permanent: yes
+    notify: reload_firewalld
+
+  handlers:
+    - name: reload_firewalld
+      service:
+        name: firewalld
+        state: reloaded
+
