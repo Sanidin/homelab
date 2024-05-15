@@ -20,11 +20,10 @@
       gpgcheck: yes
       gpgkey: https://download.docker.com/linux/centos/gpg
 
-  - name: Enable CRB repo
-    command:
-      cmd:
-        - dnf config-manager --enable crb
-        - dnf install -y centos-release-gluster
+  - name: Enable GlusterFS repo
+    shell: |
+        dnf config-manager --enable crb
+        dnf install -y centos-release-gluster
 
   - name: Install packages
     ansible.builtin.package:
