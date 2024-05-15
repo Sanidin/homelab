@@ -83,7 +83,7 @@
         hostname: "{{ item }}"
         groups: swarm_manager_operational
       with_items: "{{ ansible_play_hosts | default(play_hosts) }}"
-      when: bootstrap_first_node | changed
+      when: bootstrap_first_node.changed
 
 - hosts: swarm_manager_operational[0]
   become: true
