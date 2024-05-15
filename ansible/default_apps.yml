@@ -21,10 +21,9 @@
       gpgcheck: yes
       gpgkey: https://download.docker.com/linux/centos/gpg
 
-  - name: Ensure the crb repository is enabled
-    community.general.dnf_config_manager:
-      name: crb
-      state: enabled
+  - name: Enable CRB repo
+    command:
+      cmd: dnf config-manager --enable crb
 
   - name: Install packages
     ansible.builtin.package:
