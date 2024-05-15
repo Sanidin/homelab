@@ -11,8 +11,3 @@ all:
           hosts:
             thor101:
             thor201:
-    prox:
-      hosts:
-        pve01:
-        pve02:
-        pve03:
