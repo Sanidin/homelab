@@ -13,36 +13,36 @@
       - glusterfs-geo-replication
 
   tasks:
-    - name: enable crb repository
+    - name: enable crb repo
       community.general.dnf_config_manager:
         name: crb
         state: enabled
 
-    - name: install packages
-      ansible.builtin.package:
+    - name: install missing packages
+      package:
         name: "{{ install_pkgs }}"
         state: present
         update_cache: yes
 
-    - name: ensure glusterd is enabled
+    - name: start glusterd
       systemd:
         name: glusterd
         state: started
         enabled: yes
 
-    - name: ensure gluster dirs exist
+    - name: create paths
       file: "path={{ item }} state=directory mode=0775"
       with_items:
         - "{{ gluster_brick_dir }}"
         - "{{ gluster_mount_dir }}"
 
-    - name: create a trusted storage pool
+    - name: create pool
       gluster.gluster.gluster_peer:
         state: present
         nodes: "{{ groups.rhel }}"
       run_once: true
 
-    - name: create gluster volume
+    - name: create volume
       gluster.gluster.gluster_volume:
         state: present
         name: "{{ gluster_brick_name }}"
@@ -52,13 +52,13 @@
         force: yes
       run_once: true
 
-    - name: start gluster volume
+    - name: start volume
       gluster.gluster.gluster_volume:
         state: started
         name: "{{ gluster_brick_name }}"
       run_once: true
 
-    - name: ensure gluster volume is mounted
+    - name: mount volume
       mount:
         name: "{{ gluster_mount_dir }}"
         src: "{{ inventory_hostname_short }}:/{{ gluster_brick_name }}"
