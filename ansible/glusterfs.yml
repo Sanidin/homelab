@@ -13,7 +13,7 @@
       - glusterfs-geo-replication
 
   tasks:
-    - name: enable crb repository #ensure ansible community.general is up-to-date
+    - name: enable crb repository
       community.general.dnf_config_manager:
         name: crb
         state: enabled
@@ -65,8 +65,3 @@
         fstype: glusterfs
         opts: "defaults,_netdev"
         state: mounted
-
-#    - name: enable glusterfs repo
-#      shell: |
-#          dnf config-manager --enable crb
-#          dnf install -y centos-release-gluster
