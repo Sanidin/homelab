@@ -38,11 +38,7 @@
     - name: create a trusted storage pool
       gluster.gluster.gluster_peer:
         state: present
-        nodes:
-             - odin200
-             - odin300
-             - thor101
-             - thor201
+        nodes: "{{ groups.rhel }}"
       run_once: true
 
     - name: create gluster volume
@@ -61,10 +57,10 @@
         name: "{{ gluster_brick_name }}"
       run_once: true
 
-    - name: Ensure Gluster volume is mounted.
+    - name: ensure gluster volume is mounted
       mount:
         name: "{{ gluster_mount_dir }}"
-        src: "{{ inventory_hostname }}:/{{ gluster_brick_name }}"
+        src: "{{ inventory_hostname_short }}:/{{ gluster_brick_name }}"
         fstype: glusterfs
         opts: "defaults,_netdev"
         state: mounted
