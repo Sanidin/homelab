@@ -7,20 +7,21 @@
     gluster_brick_dir: /srv/gluster/brick
     gluster_brick_name: gluster
     install_pkgs:
+      - centos-release-gluster11
       - glusterfs
       - glusterfs-server
       - glusterfs-geo-replication
 
   tasks:
-    - name: enable glusterfs repo
-      shell: |
-          dnf config-manager --enable crb
-          dnf install -y centos-release-gluster
+    - name: enable crb repository
+      community.general.dnf_config_manager:
+        name: crb
+        state: enabled
 
     - name: install packages
       ansible.builtin.package:
         name: "{{ install_pkgs }}"
-        state: latest
+        state: present
         update_cache: yes
 
     - name: ensure glusterd is enabled
@@ -64,3 +65,8 @@
         fstype: glusterfs
         opts: "defaults,_netdev"
         state: mounted
+
+#    - name: enable glusterfs repo
+#      shell: |
+#          dnf config-manager --enable crb
+#          dnf install -y centos-release-gluster
