@@ -6,29 +6,59 @@
     gluster_mount_dir: /mnt/gluster
     gluster_brick_dir: /srv/gluster/brick
     gluster_brick_name: gluster
+    install_pkgs:
+      - glusterfs
+      - glusterfs-server
+      - glusterfs-geo-replication
 
   tasks:
-    - name: Ensure glusterd is enabled
+    - name: enable glusterfs repo
+      shell: |
+          dnf config-manager --enable crb
+          dnf install -y centos-release-gluster
+
+    - name: install packages
+      ansible.builtin.package:
+        name: "{{ install_pkgs }}"
+        state: latest
+        update_cache: yes
+
+    - name: ensure glusterd is enabled
       systemd:
         name: glusterd
         state: restarted
         enabled: yes
 
-    - name: Ensure Gluster brick and mount directories exist.
+    - name: ensure gluster dirs exist
       file: "path={{ item }} state=directory mode=0775"
       with_items:
         - "{{ gluster_brick_dir }}"
         - "{{ gluster_mount_dir }}"
 
-    - name: Configure Gluster volume.
+    - name: create a trusted storage pool
+      gluster.gluster.gluster_peer:
+        state: present
+        nodes:
+             - odin200
+             - odin300
+             - thor101
+             - thor201
+      run_once: true
+
+    - name: create gluster volume
       gluster.gluster.gluster_volume:
         state: present
         name: "{{ gluster_brick_name }}"
-        brick: "{{ gluster_brick_dir }}"
-        replicas: 2
-        cluster: "{{ groups.rhel | join(',') }}"
-        # host: "{{ inventory_hostname }}"
+        bricks: "{{ gluster_brick_dir }}"
+        replicas: 5
+        cluster: "{{ groups.rhel }}"
         force: yes
+      run_once: true
+
+    - name: start gluster volume
+      gluster.gluster.gluster_volume:
+        state: started
+        name: "{{ gluster_brick_name }}"
       run_once: true
 
     - name: Ensure Gluster volume is mounted.

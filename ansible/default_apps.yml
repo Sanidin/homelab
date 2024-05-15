@@ -8,24 +8,8 @@
       - openscap-scanner
       - libguestfs-tools
       - wget
-      - docker-ce
-      - glusterfs-server
-      - glusterfs-geo-replication
 
   tasks:
-  - name: Add repo docker-ce-stable
-    ansible.builtin.yum_repository:
-      name: docker-ce-stable
-      description: Docker CE Stable - $basearch
-      baseurl: https://download.docker.com/linux/centos/$releasever/$basearch/stable
-      gpgcheck: yes
-      gpgkey: https://download.docker.com/linux/centos/gpg
-
-  - name: Enable GlusterFS repo
-    shell: |
-        dnf config-manager --enable crb
-        dnf install -y centos-release-gluster
-
   - name: Install packages
     ansible.builtin.package:
       name: "{{ install_pkgs }}"

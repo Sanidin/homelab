@@ -1,28 +1,50 @@
 ---
+- hosts: rhel
+  become: true
+  tasks:
+  - name: add repo docker-ce-stable
+    ansible.builtin.yum_repository:
+      name: docker-ce-stable
+      description: Docker CE Stable - $basearch
+      baseurl: https://download.docker.com/linux/centos/$releasever/$basearch/stable
+      gpgcheck: yes
+      gpgkey: https://download.docker.com/linux/centos/gpg
+
+  - name: install packages
+    ansible.builtin.package:
+      name: docker-ce
+      state: latest
+      update_cache: yes
+
+  - name: start and enable docker
+    ansible.builtin.systemd:
+      name: docker
+      state: started
+      enabled: yes
 
 - hosts: manager
   become: true
   tasks:
-    - name: determine swarm status
-      shell: >
-        docker info --format \{\{.Swarm.LocalNodeState\}\}
-      register: swarm_status
+  - name: determine swarm status
+    shell: >
+      docker info --format \{\{.Swarm.LocalNodeState\}\}
+    register: swarm_status
 
-    - name: create swarm_manager_operational group
-      add_host:
-        hostname: "{{ item }}"
-        groups: swarm_manager_operational
-      with_items: "{{ ansible_play_hosts | default(play_hosts) }}"
-      when: "'active' in hostvars[item].swarm_status.stdout_lines"
-      run_once: true
+  - name: create swarm_manager_operational group
+    add_host:
+      hostname: "{{ item }}"
+      groups: swarm_manager_operational
+    with_items: "{{ ansible_play_hosts | default(play_hosts) }}"
+    when: "'active' in hostvars[item].swarm_status.stdout_lines"
+    run_once: true
 
-    - name: create swarm_manager_bootstrap group
-      add_host:
-        hostname: "{{ item }}"
-        groups: swarm_manager_bootstrap
-      with_items: "{{ ansible_play_hosts | default(play_hosts) }}"
-      when: "'active' not in hostvars[item].swarm_status.stdout_lines"
-      run_once: true
+  - name: create swarm_manager_bootstrap group
+    add_host:
+      hostname: "{{ item }}"
+      groups: swarm_manager_bootstrap
+    with_items: "{{ ansible_play_hosts | default(play_hosts) }}"
+    when: "'active' not in hostvars[item].swarm_status.stdout_lines"
+    run_once: true
 
 - hosts: worker
   become: true
