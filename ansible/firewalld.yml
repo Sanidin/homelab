@@ -21,7 +21,14 @@
       owner: root
       group: root
       mode: 0644
-    register: reload_firewalld
+    register: add_service
+
+  - name: Restart firewalld if needed
+    ansible.builtin.systemd:
+      name: firewalld
+      state: restarted
+      enabled: yes
+    when: add_service.changed
 
   - name: Open GlusterFS Service
     ansible.posix.firewalld:
