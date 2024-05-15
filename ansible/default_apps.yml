@@ -20,11 +20,6 @@
       gpgcheck: yes
       gpgkey: https://download.docker.com/linux/centos/gpg
 
-  - name: Ensure EPEL is enabled
-    ansible.builtin.package:
-      name: epel-release
-    state: latest
-
   - name: Install packages
     ansible.builtin.package:
       name: "{{ install_pkgs }}"
