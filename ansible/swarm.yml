@@ -76,7 +76,7 @@
     - name: initialize swarm cluster
       shell: >
         docker swarm init
-        --advertise-addr={{ swarm_iface | default('eth0') }}:2377
+        --advertise-addr={{ swarm_iface | default('ens18') }}:2377
       when: "'swarm_manager_operational' not in groups"
       register: bootstrap_first_node
 
@@ -90,7 +90,7 @@
 - hosts: swarm_manager_operational[0]
   become: true
   vars:
-    iface: "{{ swarm_iface | default('eth0') }}"
+    iface: "{{ swarm_iface | default('ens18') }}"
   tasks:
     - name: retrieve swarm manager token
       shell: docker swarm join-token -q manager
@@ -114,7 +114,7 @@
     - name: join manager nodes to cluster
       shell: >
         docker swarm join
-        --advertise-addr={{ swarm_iface | default('eth0') }}:2377
+        --advertise-addr={{ swarm_iface | default('ens18') }}:2377
         --token={{ token }}
         {{ groups['swarm_manager_ips'][0] }}:2377
 
@@ -126,6 +126,6 @@
     - name: join worker nodes to cluster
       shell: >
         docker swarm join
-        --advertise-addr={{ swarm_iface | default('eth0') }}:2377
+        --advertise-addr={{ swarm_iface | default('ens18') }}:2377
         --token={{ token }}
         {{ groups['swarm_manager_ips'][0] }}:2377
