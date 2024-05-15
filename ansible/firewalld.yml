@@ -16,8 +16,8 @@
 
   - name: Add GlusterFS Service
     copy:
-      src: files/glusterfs.xml
       dest: /etc/firewalld/services/glusterfs.xml
+      src: files/glusterfs.xml
       owner: root
       group: root
       mode: 0644
