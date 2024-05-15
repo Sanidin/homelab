@@ -9,7 +9,6 @@
       - libguestfs-tools
       - wget
       - docker-ce
-      - centos-release-gluster11
       - glusterfs-server
 
   tasks:
@@ -23,7 +22,9 @@
 
   - name: Enable CRB repo
     command:
-      cmd: dnf config-manager --enable crb
+      cmd:
+        - dnf config-manager --enable crb
+        - dnf install -y centos-release-gluster
 
   - name: Install packages
     ansible.builtin.package:
