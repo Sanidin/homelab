@@ -23,4 +23,4 @@
   - name: Install packages
     ansible.builtin.package:
       name: "{{ install_pkgs }}"
-    state: latest
+      state: latest
