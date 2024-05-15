@@ -1,11 +1,10 @@
----
-- hosts: rhel
-  become: yes
 
+- hosts: rhel
+  become: true
   vars:
     fw_svc:
-      - docker-swarm
-      - glusterfs
+    - docker-swarm
+    - glusterfs
 
   tasks:
   - name: Start and enable firewalld
