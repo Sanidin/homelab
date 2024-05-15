@@ -9,7 +9,8 @@
       - libguestfs-tools
       - wget
       - docker-ce
-      - glusterfs
+      - centos-release-gluster
+      - glusterfs-server
 
   tasks:
   - name: Add repo docker-ce-stable
