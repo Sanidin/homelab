@@ -9,7 +9,7 @@
       - libguestfs-tools
       - wget
       - docker-ce
-      - centos-release-gluster
+      - centos-release-gluster11
       - glusterfs-server
 
   tasks:
