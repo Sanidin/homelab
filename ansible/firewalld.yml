@@ -21,7 +21,7 @@
       owner: root
       group: root
       mode: 0644
-    notify: reload_firewalld
+    register: reload_firewalld
 
   - name: Open GlusterFS Service
     ansible.posix.firewalld:
@@ -30,7 +30,7 @@
       state: enabled
       immediate: yes
       permanent: yes
-    notify: reload_firewalld
+    register: reload_firewalld
 
   - name: Restart firewalld if needed
     ansible.builtin.systemd:
