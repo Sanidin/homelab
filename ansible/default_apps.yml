@@ -10,6 +10,7 @@
       - wget
       - docker-ce
       - glusterfs-server
+      - glusterfs-geo-replication
 
   tasks:
   - name: Add repo docker-ce-stable
