@@ -1,0 +1,10 @@
+---
+- hosts: rhel
+  become: yes
+
+  tasks:
+  - name: Restart firewalld if needed
+    ansible.builtin.systemd:
+      name: firewalld
+      state: restarted
+      enabled: yes

@@ -32,7 +32,7 @@
 
   - name: Open GlusterFS Service
     ansible.posix.firewalld:
-      service: "{{ fw_svc }}"
+      service: glusterfs
       zone: public
       state: enabled
       permanent: yes
