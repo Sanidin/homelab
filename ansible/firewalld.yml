@@ -15,7 +15,7 @@
       enabled: yes
 
   - name: Add GlusterFS Service
-    template:
+    copy:
       src: files/glusterfs.xml
       dest: /etc/firewalld/services/glusterfs.xml
       owner: root
