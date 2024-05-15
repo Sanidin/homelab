@@ -7,13 +7,13 @@
     gluster_brick_dir: /srv/gluster/brick
     gluster_brick_name: gluster
     install_pkgs:
-      - centos-release-gluster11
+      - centos-release-gluster
       - glusterfs
       - glusterfs-server
       - glusterfs-geo-replication
 
   tasks:
-    - name: enable crb repository
+    - name: enable crb repository #ensure ansible community.general is up-to-date
       community.general.dnf_config_manager:
         name: crb
         state: enabled
