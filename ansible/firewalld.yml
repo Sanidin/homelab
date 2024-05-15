@@ -35,7 +35,6 @@
       service: "{{ fw_svc }}"
       zone: public
       state: enabled
-      immediate: yes
       permanent: yes
     register: reload_firewalld
 
